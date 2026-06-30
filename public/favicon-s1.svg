@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140">
+  <polygon points="70,8 83.8,46.5 121.3,47.4 92.1,68.3 102.6,107.2 70,87.8 37.4,107.2 47.9,68.3 18.7,47.4 56.2,46.5"
+    fill="none" stroke="#B5BE6B" stroke-width="2.8"
+    transform="translate(-18,15) rotate(-18, 70, 70)"/>
+  <polygon points="70,8 83.8,46.5 121.3,47.4 92.1,68.3 102.6,107.2 70,87.8 37.4,107.2 47.9,68.3 18.7,47.4 56.2,46.5"
+    fill="none" stroke="#C4C4C0" stroke-width="2.8"
+    transform="translate(18,-15) rotate(18, 70, 70)"/>
+  <polygon points="70,8 83.8,46.5 121.3,47.4 92.1,68.3 102.6,107.2 70,87.8 37.4,107.2 47.9,68.3 18.7,47.4 56.2,46.5"
+    fill="#A1156B"/>
+</svg>
