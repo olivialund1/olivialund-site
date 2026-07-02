@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# Netlify CLI's edge-functions bootstrap lockfile (auto-generated locally)
+deno.lock

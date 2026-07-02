@@ -1,0 +1,82 @@
+---
+import ColorHysteresisGame from '../../components/ColorHysteresisGame.svelte';
+import ColorHysteresisReveal from '../../components/ColorHysteresisReveal.svelte';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Color Hysteresis — ${SITE_TITLE}`}
+			description="An experiment in perceptual switch-points across a blue-to-green color gradient."
+		/>
+		<style>
+			main {
+				width: 960px;
+			}
+			.prose {
+				width: 720px;
+				max-width: 100%;
+				margin: 0 auto;
+			}
+			.intro {
+				padding-bottom: 2em;
+			}
+			.game {
+				width: 100%;
+				max-width: 960px;
+				margin: 3em auto;
+			}
+			.reveal {
+				padding-top: 1em;
+			}
+			.todo-marker {
+				display: inline-block;
+				margin-bottom: 1em;
+				padding: 0.2em 0.6em;
+				border-radius: 4px;
+				background-color: rgba(var(--gray-light), 60%);
+				color: rgb(var(--gray));
+				font-size: 0.8em;
+				font-weight: 700;
+				letter-spacing: 0.05em;
+				text-transform: uppercase;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="prose intro">
+				<h1>Color Hysteresis</h1>
+				<p>
+					Placeholder intro copy — a sentence or two on the experiment will go here once the
+					writing is finalized.
+				</p>
+			</section>
+
+			<section class="game" aria-label="Color hysteresis experiment">
+				<ColorHysteresisGame client:load shades={50} />
+			</section>
+
+			<section class="prose reveal">
+				<h2>Your results</h2>
+				<ColorHysteresisReveal client:load />
+			</section>
+
+			<section class="prose essay">
+				<span class="todo-marker">TODO</span>
+				<p>
+					Placeholder essay paragraph. This will be replaced with the full write-up once the
+					experiment and its results are ready to discuss — for now it exists to hold the page's
+					typography and rhythm in place.
+				</p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
