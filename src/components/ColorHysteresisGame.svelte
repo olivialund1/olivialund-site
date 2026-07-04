@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { colorHysteresisResults } from '../stores/colorHysteresisResults';
-	import { colorForIndex, type PassDirection } from '../lib/colorHysteresis';
+	import { colorForIndex, SHADES, type PassDirection } from '../lib/colorHysteresis';
 
 	type Phase = 'intro' | 'playing' | 'transition' | 'complete';
 
@@ -8,7 +8,7 @@
 		shades?: number;
 	}
 
-	let { shades = 50 }: Props = $props();
+	let { shades = SHADES }: Props = $props();
 
 	type Response = 'blue' | 'green';
 
@@ -47,7 +47,9 @@
 		for (let i = 1; i < resp.length; i++) {
 			if (resp[i] !== first) return i;
 		}
-		return resp.length;
+		// Never switched: treat it as switching at the very last shade, rather
+		// than returning resp.length (which is one past the last valid index).
+		return resp.length - 1;
 	}
 
 	function respond(value: Response) {
@@ -89,10 +91,7 @@
 	{#if phase === 'intro'}
 		<button type="button" class="response-button" onclick={start}>Start</button>
 	{:else if phase === 'transition'}
-		<p class="stimulus-message">
-			Placeholder transition copy — halfway there. The sequence will now run in the opposite
-			direction.
-		</p>
+		<p class="stimulus-message">Great, now the other direction.</p>
 		<button type="button" class="response-button" onclick={continueToPass2}>Continue</button>
 	{:else if phase === 'complete'}
 		<p class="stimulus-message">All done — see your results below.</p>

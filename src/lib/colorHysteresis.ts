@@ -1,5 +1,16 @@
 export type PassDirection = 'blue-to-green' | 'green-to-blue';
 
+// Fixed number of shades used by the experiment. Not stored per-row in the
+// database, so this is the single source of truth shared by the game, the
+// personal chart, and any server-side aggregate queries that need to
+// canonicalize forward_switch/backward_switch onto the same axis.
+export const SHADES = 50;
+
+// Aggregate/population views always render their real numbers regardless of
+// sample size. This threshold is only for soft "still collecting data"
+// caveat text alongside those views, not a gate on whether they render.
+export const MIN_SAMPLE_SIZE = 10;
+
 // Lightness and chroma held constant so hue is the only varying dimension,
 // isolating hue as the sole categorization cue.
 export const HUE_BLUE = 258;
@@ -22,4 +33,23 @@ export function colorForIndex(direction: PassDirection, index: number, shades: n
  */
 export function toCanonicalIndex(direction: PassDirection, passRelativeIndex: number, shades: number): number {
 	return direction === 'blue-to-green' ? passRelativeIndex : shades - 1 - passRelativeIndex;
+}
+
+/**
+ * A player's tipping point: the midpoint between their two canonicalized
+ * switch points. Single source of truth so every view that needs "this
+ * player's tipping point" (the personal chart's markers, the population
+ * strip, the median comparison) derives it the same way instead of each
+ * re-deriving canonical forward/backward independently.
+ */
+export function personalTippingPoint(
+	directionFirst: PassDirection,
+	forwardSwitch: number,
+	backwardSwitch: number,
+	shades: number,
+): number {
+	const backwardDirection: PassDirection = directionFirst === 'blue-to-green' ? 'green-to-blue' : 'blue-to-green';
+	const canonicalForward = toCanonicalIndex(directionFirst, forwardSwitch, shades);
+	const canonicalBackward = toCanonicalIndex(backwardDirection, backwardSwitch, shades);
+	return (canonicalForward + canonicalBackward) / 2;
 }

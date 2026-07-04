@@ -1,15 +1,10 @@
 <script lang="ts">
 	import { colorHysteresisResults, type ColorHysteresisResults } from '../stores/colorHysteresisResults';
+	import { colorHysteresisStats, type ColorHysteresisStats } from '../stores/colorHysteresisStats';
+	import { colorHysteresisPopulation, type ColorHysteresisPopulation } from '../stores/colorHysteresisPopulation';
 	import ColorHysteresisResultsChart from './ColorHysteresisResultsChart.svelte';
 
-	interface Stats {
-		count: number;
-		avgForwardSwitch: number;
-		avgBackwardSwitch: number;
-	}
-
 	let results = $state<ColorHysteresisResults | null>(null);
-	let stats = $state<Stats | null>(null);
 	let statsRequested = $state(false);
 
 	colorHysteresisResults.subscribe((value) => {
@@ -21,12 +16,12 @@
 	});
 
 	// Waits for this session's own result to be submitted before fetching the
-	// aggregate, so the average shown reflects it. The personal switch-point
+	// aggregate/population data, so both reflect it. The personal switch-point
 	// chart above doesn't wait on any of this — it renders the moment
 	// `results` is set.
 	async function syncResult(result: ColorHysteresisResults) {
 		await submitResult(result);
-		await fetchStats();
+		await Promise.all([fetchStats(), fetchPopulation()]);
 	}
 
 	async function submitResult(result: ColorHysteresisResults) {
@@ -42,17 +37,31 @@
 		}
 	}
 
+	// Aggregate/population views render regardless of sample size — each
+	// section shows its own real count ("Sample size: N") rather than hiding
+	// behind a threshold. Sparse output at low N is the honest result, not a
+	// state to hide.
 	async function fetchStats() {
 		try {
 			const response = await fetch('/.netlify/functions/color-hysteresis-stats');
 			if (!response.ok) return;
-			const data: Stats = await response.json();
-			if (data.count >= 10) {
-				stats = data;
-			}
+			const data: ColorHysteresisStats = await response.json();
+			colorHysteresisStats.set(data);
 		} catch {
-			// Aggregate endpoint not available yet — reveal falls back to the
-			// "not enough data" state below.
+			// Aggregate endpoint not available yet — the average-results section
+			// falls back to its own loading state.
+		}
+	}
+
+	async function fetchPopulation() {
+		try {
+			const response = await fetch('/.netlify/functions/color-hysteresis-population');
+			if (!response.ok) return;
+			const data: ColorHysteresisPopulation = await response.json();
+			colorHysteresisPopulation.set(data);
+		} catch {
+			// Population endpoint not available yet — the population-strip section
+			// falls back to its own loading state.
 		}
 	}
 </script>
@@ -60,22 +69,5 @@
 {#if !results}
 	<p>Placeholder reveal copy — switch points and the running average will appear here.</p>
 {:else}
-	<ColorHysteresisResultsChart {results} />
-
-	{#if stats}
-		<p>
-			Across {stats.count} runs so far, the average switch point is shade {stats.avgForwardSwitch.toFixed(
-				1,
-			)} on the first pass and shade {stats.avgBackwardSwitch.toFixed(1)} on the second pass.
-		</p>
-	{:else}
-		<p class="not-enough-data">Not enough data yet — check back once more people have run the experiment.</p>
-	{/if}
+	<ColorHysteresisResultsChart {results} showStartSide />
 {/if}
-
-<style>
-	.not-enough-data {
-		color: rgb(var(--gray));
-		font-style: italic;
-	}
-</style>

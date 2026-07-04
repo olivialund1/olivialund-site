@@ -1,10 +1,14 @@
 ---
 import ColorHysteresisGame from '../../components/ColorHysteresisGame.svelte';
 import ColorHysteresisReveal from '../../components/ColorHysteresisReveal.svelte';
+import ColorHysteresisAverageReveal from '../../components/ColorHysteresisAverageReveal.svelte';
+import ColorHysteresisPopulationStrip from '../../components/ColorHysteresisPopulationStrip.svelte';
+import ColorHysteresisTippingPointComparison from '../../components/ColorHysteresisTippingPointComparison.svelte';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
+import { SHADES } from '../../lib/colorHysteresis';
 ---
 
 <!doctype html>
@@ -34,6 +38,12 @@ import { SITE_TITLE } from '../../consts';
 			.reveal {
 				padding-top: 1em;
 			}
+			.avg-results-note {
+				margin-bottom: 1.5em;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				font-style: italic;
+			}
 			.todo-marker {
 				display: inline-block;
 				margin-bottom: 1em;
@@ -53,14 +63,11 @@ import { SITE_TITLE } from '../../consts';
 		<main>
 			<section class="prose intro">
 				<h1>Color Hysteresis</h1>
-				<p>
-					Placeholder intro copy — a sentence or two on the experiment will go here once the
-					writing is finalized.
-				</p>
+				<p>You'll see a color. Click whichever one it looks like to you.</p>
 			</section>
 
 			<section class="game" aria-label="Color hysteresis experiment">
-				<ColorHysteresisGame client:load shades={50} />
+				<ColorHysteresisGame client:load shades={SHADES} />
 			</section>
 
 			<section class="prose reveal">
@@ -71,9 +78,46 @@ import { SITE_TITLE } from '../../consts';
 			<section class="prose essay">
 				<span class="todo-marker">TODO</span>
 				<p>
-					Placeholder essay paragraph. This will be replaced with the full write-up once the
-					experiment and its results are ready to discuss — for now it exists to hold the page's
-					typography and rhythm in place.
+					Placeholder for an essay on Ripley vs. Raffman and individual inconsistency — this will
+					be replaced with the full write-up once the experiment and its results are ready to
+					discuss; for now it exists to hold the page's typography and rhythm in place.
+				</p>
+			</section>
+
+			<section class="prose avg-results">
+				<h2>Average results</h2>
+				<p class="avg-results-note">
+					You experienced the colors in a random order — but to compare everyone fairly, we line up
+					all the results as if each person had started from blue.
+				</p>
+				<ColorHysteresisAverageReveal client:load />
+			</section>
+
+			<section class="prose essay">
+				<span class="todo-marker">TODO</span>
+				<p>But what about the tipping point as a whole?</p>
+			</section>
+
+			<section class="prose population">
+				<h2>Population tipping points</h2>
+				<ColorHysteresisPopulationStrip client:load />
+			</section>
+
+			<section class="prose essay">
+				<span class="todo-marker">TODO</span>
+				<p>Text placeholder explaining how your tipping point stacks up against everyone else's.</p>
+			</section>
+
+			<section class="prose comparison">
+				<ColorHysteresisTippingPointComparison client:load />
+			</section>
+
+			<section class="prose essay">
+				<span class="todo-marker">TODO</span>
+				<p>
+					Placeholder for an essay on cultural indeterminacy and philosophical implications — this
+					will be replaced with the full write-up once the experiment and its results are ready to
+					discuss; for now it exists to hold the page's typography and rhythm in place.
 				</p>
 			</section>
 		</main>
