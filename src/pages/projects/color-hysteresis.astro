@@ -38,7 +38,7 @@ import { SHADES } from '../../lib/colorHysteresis';
 			.reveal {
 				padding-top: 1em;
 			}
-			.avg-results-note {
+			.section-note {
 				margin-bottom: 1.5em;
 				color: rgb(var(--gray));
 				font-size: 0.9rem;
@@ -86,9 +86,10 @@ import { SHADES } from '../../lib/colorHysteresis';
 
 			<section class="prose avg-results">
 				<h2>Average results</h2>
-				<p class="avg-results-note">
+				<p class="section-note">
 					You experienced the colors in a random order — but to compare everyone fairly, we line up
-					all the results as if each person had started from blue.
+					all the results as if each person had started from blue. Also, gap is defined as the
+					average <strong>magnitude</strong> gap.
 				</p>
 				<ColorHysteresisAverageReveal client:load />
 			</section>
@@ -100,6 +101,9 @@ import { SHADES } from '../../lib/colorHysteresis';
 
 			<section class="prose population">
 				<h2>Population tipping points</h2>
+				<p class="section-note">
+					Tipping point is calculated as the average of one's forward and backward switch.
+				</p>
 				<ColorHysteresisPopulationStrip client:load />
 			</section>
 
