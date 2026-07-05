@@ -1,0 +1,209 @@
+---
+import ColorHysteresisGame from '../../components/ColorHysteresisGame.svelte';
+import ColorHysteresisReveal from '../../components/ColorHysteresisReveal.svelte';
+import ColorHysteresisAverageReveal from '../../components/ColorHysteresisAverageReveal.svelte';
+import ColorHysteresisPopulationStrip from '../../components/ColorHysteresisPopulationStrip.svelte';
+import ColorHysteresisTippingPointComparison from '../../components/ColorHysteresisTippingPointComparison.svelte';
+import ColorHysteresisTheoryPoll from '../../components/ColorHysteresisTheoryPoll.svelte';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+import { SHADES } from '../../lib/colorHysteresis';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={`Colors are vague — ${SITE_TITLE}`}
+			description="An experiment in perceptual switch-points across a blue-to-green color gradient."
+		/>
+		<style>
+			main {
+				width: 960px;
+			}
+			.prose {
+				width: 720px;
+				max-width: 100%;
+				margin: 0 auto;
+			}
+			.game {
+				width: 100%;
+				max-width: 960px;
+				margin: 3em auto;
+			}
+			.prose ul,
+			.prose ol {
+				margin-bottom: 2em;
+			}
+			.reveal {
+				padding-top: 1em;
+			}
+			.population h2 {
+				margin-bottom: 1em;
+			}
+			.section-note {
+				margin-bottom: 1.5em;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				font-style: italic;
+			}
+			.signoff {
+				margin-top: 1.5em;
+			}
+			.todo-marker {
+				display: inline-block;
+				margin-bottom: 1em;
+				padding: 0.2em 0.6em;
+				border-radius: 4px;
+				background-color: rgba(var(--gray-light), 60%);
+				color: rgb(var(--gray));
+				font-size: 0.8em;
+				font-weight: 700;
+				letter-spacing: 0.05em;
+				text-transform: uppercase;
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="prose intro">
+				<h1>Colors are vague</h1>
+				<p>You'll see a color, please click whichever one it looks like to you.</p>
+			</section>
+
+			<section class="game" aria-label="Color hysteresis experiment">
+				<ColorHysteresisGame client:load shades={SHADES} />
+			</section>
+
+			<section class="prose reveal">
+				<h2>Your results</h2>
+				<ColorHysteresisReveal client:load />
+			</section>
+
+			<section class="prose essay">
+				<p>
+					Did you choose the same shade going forward and backward? If not, you're not the only
+					one. And there may be a reason why.
+				</p>
+			</section>
+
+			<section class="prose avg-results">
+				<h2>Average results</h2>
+				<p class="section-note">
+					You experienced the colors in a random order — but to compare everyone fairly, we line up
+					all the results as if each person had started from blue. Also, gap is defined as the
+					average <strong>magnitude</strong> gap.
+				</p>
+				<ColorHysteresisAverageReveal client:load />
+			</section>
+
+			<section class="prose essay">
+				<p>
+					Psychologists Paul Égré, Vincent de Gardelle, and David Ripley were curious about how we
+					interpret colors, and ran an <a href="http://paulegre.free.fr/Papers/voe.pdf" target="_blank"
+						>experiment</a
+					> similar to the one you just played. Depending on which direction the switch runs, the
+					effect goes by two different names:
+				</p>
+				<ul>
+					<li>
+						If you cling to whichever color you started with, taking longer to give it up, in both
+						directions, that's called <strong>hysteresis</strong>.
+					</li>
+					<li>
+						If instead you're quicker than expected to abandon whichever color you started with,
+						that's called <strong>enhanced contrast</strong>, or negative hysteresis.
+					</li>
+				</ul>
+				<p>
+					Égré, de Gardelle, and Ripley found a statistically significant enhanced-contrast effect,
+					but only when people had to name the color out loud. When they ran a version with no
+					language involved at all, just matching a shade to a visual of its nearer neighbor (pure
+					blue or pure green), the effect
+					disappeared entirely! That split is the interesting part. Whatever's happening here isn't
+					really about how blue and green look. It's about what happens the moment we're forced to
+					put a word on it.
+				</p>
+				<p>
+					Now, it's interesting to see the psychological origins of this experiment. But what I
+					find more interesting is the philosophical side. How come I'm 22 years old and still
+					don't have a clear idea of what makes blue different from green? If I don't even agree
+					with myself, maybe it's no surprise that other people exhibit some variation too. Following
+					this, let's look at tipping points, or the average of the two shades people switch at.
+				</p>
+			</section>
+
+			<section class="prose population">
+				<h2>Tipping points</h2>
+				<ColorHysteresisTippingPointComparison client:load />
+				<ColorHysteresisPopulationStrip client:load />
+			</section>
+
+			<section class="prose essay">
+				<p>
+					What gets me thinking is that if there really were a defined tipping point or answer
+					sitting out there (a real, fixed boundary), you'd expect the <em>group's</em> typical
+					answer to be pretty stable, even if any one person wobbles. We use these labels
+					constantly. We've had lots of practice. I mean, colors were one of the first
+					things we ever learned! And yet the median tipping points don't converge to a single,
+					sharp point, and instead resemble a spread. This is what led me to consider whether
+					there's a true boundary to find in the first place.
+				</p>
+				<p>Naturally, I went down a rabbit hole. Eventually, I found a few competing theories:</p>
+				<ol>
+					<li>
+						<strong>There's a real, sharp boundary, we just can't find it.</strong> On this view
+						(Williamson, 1994), blue and green really do have a precise cutoff, we just lack the
+						knowledge or tools to ever find it. If you're curious how this ties to chaos
+						theory, <a href="https://plato.stanford.edu/entries/vagueness/#PhiChaPosVag" target="_blank"
+							>Roy Sorensen's SEP entry on vagueness</a
+						> digs into it in section 3.
+					</li>
+					<li>
+						<strong>There's no boundary to find, just a gap.</strong> On this view (Fine, 1975), the
+						space between clearly blue and green isn't a hidden fact waiting to be discovered. It's
+						a real gap: some shades are simply neither blue nor green, period. Philosophers call
+						this <em>indeterminacy</em>.
+					</li>
+					<li>
+						<strong>The categories overlap.</strong> On this view (Hyde, 1997; Smith, 2008), it's not
+						that there's nothing there. Instead, borderline shades genuinely count as both colors
+						at once, two categories overlapping rather than leaving gap between them.
+					</li>
+				</ol>
+			</section>
+
+			<section class="prose essay">
+				<p>Out of curiosity, which theory makes the most sense to you?</p>
+				<ColorHysteresisTheoryPoll client:load />
+			</section>
+
+			<section class="prose essay">
+				<p>
+					As is true with most philosophy, there are many possible answers and no consensus in
+					sight. Personally, I land somewhere between indeterminacy and a sharp boundary that's
+					simply beyond our reach. And how do you operate in a world this vague? Not sure yet, but
+					I'm hoping to find a better answer as I keep learning and building things like this.
+				</p>
+				<p>
+					This deep dive started after I began noticing all sorts of fuzzy boundaries in
+					miscellaneous parts of life. Music particularly always struck a chord (haha), and I began
+					bending over backwards trying to figure out where one genre like 'Pop' ultimately becomes
+					another like 'Rock'. Next, I hope to continue this series by following that music
+					tangent, and exploring the boundaries (or lack thereof) between different genres and
+					sounds.
+				</p>
+				<p>
+					In the meantime, I hope you enjoyed this little essay! Definitely not perfect, but a
+					first attempt at turning the ideas in my brain into something tangible, and hopefully the
+					first of a few.
+				</p>
+				<p class="signoff">Best,<br /><em>Olivia</em></p>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -13,6 +13,10 @@ export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap(), svelte()],
 
+  redirects: {
+    '/projects/color-hysteresis': '/projects/colors-are-vague',
+  },
+
   fonts: [
     {
       provider: fontProviders.google(),

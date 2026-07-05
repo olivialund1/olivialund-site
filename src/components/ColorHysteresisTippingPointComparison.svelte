@@ -48,8 +48,6 @@
 		</div>
 	</div>
 
-	<p class="sample-size">Based on the same {$colorHysteresisStats.count} samples</p>
-
 	{#if $colorHysteresisStats.count < MIN_SAMPLE_SIZE}
 		<p class="caveat">Check back as more people play.</p>
 	{/if}
@@ -66,6 +64,7 @@
 		justify-content: center;
 		gap: 1.5em;
 		flex-wrap: wrap;
+		margin-bottom: 1.5em;
 	}
 
 	.box {
@@ -98,15 +97,8 @@
 		font-weight: 700;
 	}
 
-	.sample-size {
-		margin-top: 1em;
-		color: rgb(var(--gray));
-		font-size: 0.9rem;
-		text-align: center;
-	}
-
 	.caveat {
-		margin-top: 0.35em;
+		margin-top: 1em;
 		color: rgb(var(--gray));
 		font-size: 0.85rem;
 		font-style: italic;

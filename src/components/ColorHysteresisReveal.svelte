@@ -67,7 +67,7 @@
 </script>
 
 {#if !results}
-	<p>Placeholder reveal copy — switch points and the running average will appear here.</p>
+	<p>Results will show once the game is complete.</p>
 {:else}
 	<ColorHysteresisResultsChart {results} showStartSide />
 {/if}
