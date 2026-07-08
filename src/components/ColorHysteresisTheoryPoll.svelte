@@ -63,7 +63,10 @@
 			<div class="poll-result">
 				<div class="poll-result-header">
 					<span class="poll-result-label"
-						>{theory.label}{selected === theory.value ? ' — your pick' : ''}</span
+						>{theory.label}{#if selected === theory.value}<span
+									class="poll-result-star"
+									aria-label="your pick">★</span
+								>{/if}</span
 					>
 					<span class="poll-result-count">{count}</span>
 				</div>
@@ -123,6 +126,13 @@
 
 	.poll-result-label {
 		color: var(--text-primary);
+	}
+
+	.poll-result-star {
+		display: inline-block;
+		margin-left: 0.4em;
+		color: var(--accent);
+		font-style: normal;
 	}
 
 	.poll-result-count {
