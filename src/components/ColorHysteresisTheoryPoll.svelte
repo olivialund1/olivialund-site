@@ -90,6 +90,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75em;
+		margin-bottom: 2em;
 	}
 
 	.poll-option {
