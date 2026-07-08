@@ -113,7 +113,9 @@ const posts = (await getCollection('projects')).sort(
 						}
 					</ul>
 				) : (
-					<p class="empty-state">No posts yet — check back soon.</p>
+					<p class="empty-state">
+						<a href="/projects/colors-are-vague">Colors are vague</a>
+					</p>
 				)}
 			</section>
 		</main>
